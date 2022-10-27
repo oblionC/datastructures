@@ -11,7 +11,7 @@ node;
 void append(node** list_start);
 void prepend(node** list_start);
 void insert(node** list_start, int list_size);
-void delete(node* list_start, int list_size);
+void delete(node** list_start, int list_size);
 void printlist(node** list_start);
 
 int main()
@@ -29,7 +29,7 @@ int main()
         {
             case 1: append(&list_start); list_size++; break;
             case 2: prepend(&list_start); list_size++; break;
-            case 3: delete(list_start, list_size); list_size--; break;
+            case 3: delete(&list_start, list_size); list_size--; break;
             case 4: insert(&list_start, list_size); list_size++; break;
             case 5: printlist(&list_start); break;
             case 6: return 0; break;
@@ -128,7 +128,7 @@ void insert(node** list_start, int list_size)
     printf("Inserted!\n\n");
 }
 
-void delete(node* list_start, int list_size)
+void delete(node** list_start, int list_size)
 {
     int index, i;
     printf("\nEnter the position of value to delete: ");
@@ -140,14 +140,18 @@ void delete(node* list_start, int list_size)
     }
     if(index == 1)
     {
-        node* temp = list_start;
-        *list_start = *list_start -> next;
-        free(temp);
+        node* current_node = *list_start;
+        *list_start = current_node -> next;
+        free(current_node);
         printf("Deleted!\n\n");
+        return;
     }
-    node* current_node;
+    node* current_node = *list_start;
     node* temp;
-    for(current_node = list_start, i = 1; i < index; current_node = current_node -> next, i++);
+    for(i = 1; i < index - 1; i++)
+    {
+        current_node = current_node -> next;
+    }
     temp = current_node -> next;
     current_node -> next = current_node -> next -> next;
     free(temp);
