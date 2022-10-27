@@ -10,7 +10,7 @@ node;
 
 void append(node** list_start);
 void prepend(node** list_start);
-void insert(node* list_start, int list_size);
+void insert(node** list_start, int list_size);
 void delete(node* list_start, int list_size);
 void printlist(node** list_start);
 
@@ -30,7 +30,7 @@ int main()
             case 1: append(&list_start); list_size++; break;
             case 2: prepend(&list_start); list_size++; break;
             case 3: delete(list_start, list_size); list_size--; break;
-            case 4: insert(list_start, list_size); list_size++; break;
+            case 4: insert(&list_start, list_size); list_size++; break;
             case 5: printlist(&list_start); break;
             case 6: return 0; break;
             default: printf("Input isn't between 1 and 6\n");
@@ -85,13 +85,9 @@ void printlist(node** list_start)
     printf("\n");
 }
 
-void insert(node* list_start, int list_size)
+void insert(node** list_start, int list_size)
 {
-    if(list_size == 0)
-    {
-        printf("Enter values into list first!\n\n");
-        return;
-    }
+    
     int index, value;
     printf("\n Enter the position and value: ");
     scanf("%d %d", &index, &value);
@@ -101,17 +97,32 @@ void insert(node* list_start, int list_size)
         return;
     }
     node* new = malloc(sizeof(node));
+    node* current_node = *list_start;
     new -> value = value;
     if(index == 1)
     {
-        new -> next = list_start;
-        list_start = new;
+        new -> next = *list_start;
+        *list_start = new;
         printf("Inserted!\n\n");
         return;
     }
-    node* current_node;
+    if(index == list_size + 1)
+    {
+        new -> next = NULL;
+        while(current_node -> next != NULL)
+        {
+            current_node = current_node -> next;
+        }
+        current_node -> next = new;
+        printf("Inserted!\n\n");
+        return;
+    }
+    
     int i;
-    for(current_node = list_start, i = 1; i < index; current_node = current_node -> next, i++);
+    for(i = 1; i < index - 1; i++)
+    {
+        current_node = current_node -> next;
+    }
     new -> next = current_node -> next;
     current_node -> next = new;
     printf("Inserted!\n\n");
