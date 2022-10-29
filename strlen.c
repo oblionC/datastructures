@@ -14,8 +14,8 @@ int main()
 
     char concatanate[1000];
     int conindex, i;
-    for(conindex = 0; conindex < stringlen1; conindex++) concatanate[conindex] = string1[conindex];
-    for(i = 0; i < stringlen2; i++, conindex++) concatanate[conindex] = string2[i];
-    concatanate[conindex] = '\0';
+    for(conindex = 0; conindex < stringlen1; conindex++) *(concatanate + conindex) = *(string1 + conindex);
+    for(i = 0; i < stringlen2; i++, conindex++) *(concatanate + conindex) = *(string2 + i);
+    *(concatanate + conindex) = '\0';
     printf("Concatanated string: %s", concatanate);
 }
