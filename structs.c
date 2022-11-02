@@ -27,7 +27,7 @@ int main()
         scanf("\n%[^\n]s", &employees[i].eName);
         printf("Enter salary: ");
         scanf("%d", &employees[i].salary);
-        printf("Enter DOJ: ");
+        printf("Enter DOJ (DDMMYYYY): ");
         scanf("%d", &employees[i].DOJ);
         printf("\n");
     }
